@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Brooks Christensen | Optical Physics | Photonic Simulation | Machine Learning</title>
+  <meta name="description" content="Portfolio website for Brooks Christensen featuring optical physics, photonic simulation, machine learning, guest lectures, and selected projects." />
+  <meta name="theme-color" content="#0b0f17" />
+  <style>
+    :root {
+      --bg: #0b0f17;
+      --panel: #111827;
+      --panel-2: #0f172a;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --line: rgba(148, 163, 184, 0.18);
+      --accent: #cbd5e1;
+      --shadow: 0 18px 48px rgba(0, 0, 0, 0.35);
+      --max: 1080px;
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.06), transparent 22%),
+        radial-gradient(circle at top right, rgba(255,255,255,0.04), transparent 18%),
+        linear-gradient(180deg, #0b0f17 0%, #0b1220 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    a:hover { opacity: 0.9; }
+
+    .wrap {
+      width: min(calc(100% - 2rem), var(--max));
+      margin: 0 auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      backdrop-filter: blur(12px);
+      background: rgba(11, 15, 23, 0.75);
+      border-bottom: 1px solid var(--line);
+      z-index: 20;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 72px;
+      gap: 1rem;
+    }
+
+    .brand {
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .hero {
+      padding: 5rem 0 3rem;
+      display: grid;
+      grid-template-columns: 1.3fr 0.9fr;
+      gap: 1.25rem;
+      align-items: stretch;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(17,24,39,0.95), rgba(15,23,42,0.92));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-main {
+      padding: 2rem;
+    }
+
+    .kicker {
+      display: inline-flex;
+      padding: 0.4rem 0.8rem;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      background: rgba(255,255,255,0.02);
+    }
+
+    h1, h2, h3 {
+      line-height: 1.15;
+      margin: 0 0 0.8rem;
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 5vw, 4.2rem);
+      letter-spacing: -0.03em;
+      max-width: 12ch;
+    }
+
+    .subhead {
+      font-size: 1.08rem;
+      color: var(--muted);
+      max-width: 58ch;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      margin-top: 1.25rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.85rem 1.1rem;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      font-weight: 600;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: #f8fafc;
+      color: #0b1220;
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.03);
+      color: var(--text);
+    }
+
+    .hero-side {
+      padding: 1.4rem;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .stat {
+      padding: 1rem 1.1rem;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255,255,255,0.02);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.2rem;
+      margin-bottom: 0.25rem;
+    }
+
+    main section {
+      padding: 1rem 0 1.5rem;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .section-head p {
+      color: var(--muted);
+      max-width: 60ch;
+      margin: 0;
+    }
+
+    .grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .about-grid {
+      grid-template-columns: 1.2fr 0.8fr;
+    }
+
+    .panel {
+      padding: 1.4rem;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      margin-top: 1rem;
+    }
+
+    .chip {
+      padding: 0.45rem 0.7rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      background: rgba(255,255,255,0.02);
+    }
+
+    .projects {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .project {
+      padding: 1.4rem;
+    }
+
+    .eyebrow {
+      color: var(--muted);
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 0.55rem;
+    }
+
+    ul {
+      margin: 0.8rem 0 0;
+      padding-left: 1.1rem;
+    }
+
+    li { margin-bottom: 0.45rem; }
+
+    .links {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .link-card {
+      padding: 1.2rem;
+    }
+
+    footer {
+      padding: 2rem 0 3rem;
+      color: var(--muted);
+    }
+
+    .note {
+      font-size: 0.92rem;
+      color: var(--muted);
+      margin-top: 0.8rem;
+    }
+
+    @media (max-width: 900px) {
+      .hero,
+      .about-grid,
+      .projects,
+      .links {
+        grid-template-columns: 1fr;
+      }
+
+      .nav {
+        align-items: flex-start;
+        padding: 0.8rem 0;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap nav">
+      <div class="brand">Brooks Christensen</div>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#talks">Talks</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div class="card hero-main">
+        <div class="kicker">Optical Physics · Photonic Simulation · Machine Learning</div>
+        <h1>Scientific computing with real-world impact</h1>
+        <p class="subhead">
+          I build technical systems at the intersection of optical physics, machine learning, data science, and engineering communication. My work spans photonic simulation, experimental modeling, AI workflows, and translating complex results into actionable decisions.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="mailto:brooks@brookschristensen.com">Contact Me</a>
+          <a class="btn btn-secondary" href="https://www.linkedin.com/in/brooks-christensen" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a class="btn btn-secondary" href="https://github.com/brooks-christensen" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </div>
+        <p class="note">MVP launch version — selected projects and media will continue to expand.</p>
+      </div>
+
+      <aside class="card hero-side">
+        <div class="stat" style="padding: 0.75rem; overflow: hidden;">
+          <img src="headshot.jpg" alt="Professional headshot of Brooks Christensen" style="display:block; width:100%; height:auto; border-radius: 16px; border: 1px solid var(--line);" />
+          <div class="note" style="padding: 0.65rem 0.35rem 0.15rem;">Upload your current headshot as <strong>headshot.jpg</strong>. Replacing it later is as simple as uploading a new file with the same name.</div>
+        </div>
+        <div class="stat">
+          <strong>M.S. Optical Physics</strong>
+          NSF Graduate Research Fellow, University of Colorado Boulder
+        </div>
+        <div class="stat">
+          <strong>Guest Lecturer</strong>
+          Presented real-world AI and ML applications to 150+ computer science students
+        </div>
+        <div class="stat">
+          <strong>Volunteer Data Science</strong>
+          Contributed to maternal mortality risk modeling work with Omdena
+        </div>
+      </aside>
+    </section>
+
+    <section id="about">
+      <div class="section-head">
+        <div>
+          <h2>About</h2>
+          <p>
+            I’m a physicist and machine learning engineer with experience spanning photonic device simulation, scientific computing, computer vision pipelines, and technical communication across research and applied engineering environments.
+          </p>
+        </div>
+      </div>
+      <div class="grid about-grid">
+        <div class="card panel">
+          <p>
+            My background includes optical simulation and analysis using Lumerical and MATLAB, machine learning and signal processing work at Nielsen, and project-based AI development involving language models, retrieval systems, and production-oriented Python workflows. I enjoy building tools that are technically rigorous, practically useful, and clearly communicated.
+          </p>
+          <p>
+            This site is the foundation of a broader portfolio that will continue to grow over time, including selected talks, technical projects, and production-ready demos.
+          </p>
+        </div>
+        <div class="card panel">
+          <h3>Core Areas</h3>
+          <div class="chips">
+            <span class="chip">Optical Physics</span>
+            <span class="chip">Photonic Simulation</span>
+            <span class="chip">Scientific Computing</span>
+            <span class="chip">Machine Learning</span>
+            <span class="chip">Signal Processing</span>
+            <span class="chip">Python</span>
+            <span class="chip">MATLAB</span>
+            <span class="chip">Lumerical</span>
+            <span class="chip">SQL</span>
+            <span class="chip">Technical Communication</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="section-head">
+        <div>
+          <h2>Selected Projects</h2>
+          <p>Start with the strongest proof points. Add depth later.</p>
+        </div>
+      </div>
+      <div class="grid projects">
+        <article class="card project">
+          <div class="eyebrow">Optical Simulation</div>
+          <h3>Optical Device Simulation & Analysis</h3>
+          <p>
+            Simulated photonic device behavior and optical coupling characteristics using Lumerical and MATLAB-based workflows.
+          </p>
+          <ul>
+            <li>Conducted parameter sweeps across geometric variables such as gap spacing and waveguide widths</li>
+            <li>Generated surface plots and statistical summaries from simulation outputs</li>
+            <li>Interpreted results to inform design trade-offs and photonic performance optimization</li>
+          </ul>
+        </article>
+
+        <article class="card project">
+          <div class="eyebrow">Language Models</div>
+          <h3>Alan Watts Conversational AI</h3>
+          <p>
+            Ongoing project focused on creating a philosophically grounded conversational system using curated lecture material, structured datasets, and modern LLM workflows.
+          </p>
+          <ul>
+            <li>Dataset design and transformation for dialogic training data</li>
+            <li>Retrieval and grounding strategy for style plus substance</li>
+            <li>Deployment-oriented roadmap for a polished public demo</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="talks">
+      <div class="section-head">
+        <div>
+          <h2>Talks, Media, and Service</h2>
+          <p>Replace placeholder links with your final URLs as you gather them.</p>
+        </div>
+      </div>
+      <div class="grid links">
+        <a class="card link-card" href="https://ufl.zoom.us/rec/play/royiJ7GZtt070SdUZg9-JjR-acgR9Xh0F_wz4n4Iq-LI9K6njasqZ1aNsULkzkh0gztxBolEQoHnjdkf.Rkxyit-4WFQztIZx?eagerLoadZvaPages=sidemenu.billing.plan_management&accessLevel=meeting&canPlayFromShare=true&from=share_recording_detail&startTime=1764627120000&componentName=rec-play&originRequestUrl=https%3A%2F%2Fufl.zoom.us%2Frec%2Fshare%2FkiWf8oR1mplXkTcz_iVG2VugsedvKiLCNeQCu6GEmDH2G7LPCIqLhC0bquTfb9IU.KEN0c_TI3huLaPOj%3FstartTime%3D1764627120000" target="_blank" rel="noopener noreferrer">
+          <div class="eyebrow">Guest Lecture</div>
+          <h3>University of Florida AI/ML Talk</h3>
+          <p>Watch the full guest lecture presentation</p>
+        </a>
+
+        <a class="card link-card" href="https://maternal-mortality-e25y.onrender.com/" target="_blank" rel="noopener noreferrer">
+          <div class="eyebrow">Volunteer Work</div>
+          <h3>Omdena Maternal Mortality Project</h3>
+          <p>View project presentation and results</p>
+        </a>
+
+        <a class="card link-card" href="/resume.pdf" target="_blank" rel="noopener noreferrer">
+          <div class="eyebrow">Resume</div>
+          <h3>Current Resume</h3>
+          <p>Upload a PDF named resume.pdf to your site folder</p>
+        </a>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="section-head">
+        <div>
+          <h2>Contact</h2>
+          <p>Simple, direct, and professional.</p>
+        </div>
+      </div>
+      <div class="card panel">
+        <p><strong>Email:</strong> <a href="mailto:brooks@brookschristensen.com">brooks@brookschristensen.com</a></p>
+        <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/brooks-christensen" target="_blank" rel="noopener noreferrer">linkedin.com/in/brooks-christensen</a></p>
+        <p><strong>GitHub:</strong> <a href="https://github.com/brooks-christensen" target="_blank" rel="noopener noreferrer">github.com/brooks-christensen</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <div>© <span id="year"></span> Brooks Christensen</div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
