@@ -6,6 +6,7 @@
   <title>Brooks Christensen | Optical Physics | Photonic Simulation | Machine Learning</title>
   <meta name="description" content="Portfolio website for Brooks Christensen featuring optical physics, photonic simulation, machine learning, guest lectures, and selected projects." />
   <meta name="theme-color" content="#0b0f17" />
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <style>
     :root {
       --bg: #0b0f17;
@@ -18,10 +19,12 @@
       --shadow: 0 18px 48px rgba(0, 0, 0, 0.35);
       --max: 1080px;
       --radius: 22px;
+      --success: #86efac;
+      --error: #fca5a5;
+      --info-bg: rgba(255,255,255,0.02);
     }
 
     * { box-sizing: border-box; }
-
     html { scroll-behavior: smooth; }
 
     body {
@@ -95,9 +98,7 @@
       box-shadow: var(--shadow);
     }
 
-    .hero-main {
-      padding: 2rem;
-    }
+    .hero-main { padding: 2rem; }
 
     .kicker {
       display: inline-flex;
@@ -143,12 +144,11 @@
       border-radius: 14px;
       border: 1px solid var(--line);
       font-weight: 600;
-      transition: transform 0.15s ease, background 0.15s ease;
+      transition: transform 0.15s ease, background 0.15s ease, opacity 0.15s ease;
+      cursor: pointer;
     }
 
-    .btn:hover {
-      transform: translateY(-1px);
-    }
+    .btn:hover { transform: translateY(-1px); }
 
     .btn-primary {
       background: #f8fafc;
@@ -158,6 +158,12 @@
     .btn-secondary {
       background: rgba(255,255,255,0.03);
       color: var(--text);
+    }
+
+    .btn[disabled] {
+      opacity: 0.55;
+      cursor: not-allowed;
+      transform: none;
     }
 
     .hero-side {
@@ -179,9 +185,7 @@
       margin-bottom: 0.25rem;
     }
 
-    main section {
-      padding: 1rem 0 1.5rem;
-    }
+    main section { padding: 1rem 0 1.5rem; }
 
     .section-head {
       display: flex;
@@ -197,18 +201,9 @@
       margin: 0;
     }
 
-    .grid {
-      display: grid;
-      gap: 1rem;
-    }
-
-    .about-grid {
-      grid-template-columns: 1.2fr 0.8fr;
-    }
-
-    .panel {
-      padding: 1.4rem;
-    }
+    .grid { display: grid; gap: 1rem; }
+    .about-grid { grid-template-columns: 1.2fr 0.8fr; }
+    .panel { padding: 1.4rem; }
 
     .chips {
       display: flex;
@@ -226,13 +221,8 @@
       background: rgba(255,255,255,0.02);
     }
 
-    .projects {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .project {
-      padding: 1.4rem;
-    }
+    .projects { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .project { padding: 1.4rem; }
 
     .eyebrow {
       color: var(--muted);
@@ -248,13 +238,137 @@
     }
 
     li { margin-bottom: 0.45rem; }
+    .links { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .link-card { padding: 1.2rem; }
 
-    .links {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+    .demo-shell {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: 1.15fr 0.85fr;
+      align-items: start;
     }
 
-    .link-card {
-      padding: 1.2rem;
+    .demo-card,
+    .answer-card,
+    .context-card {
+      padding: 1.4rem;
+    }
+
+    .demo-intro {
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+
+    .field-label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.55rem;
+    }
+
+    .chat-textarea {
+      width: 100%;
+      min-height: 130px;
+      resize: vertical;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.03);
+      color: var(--text);
+      padding: 1rem;
+      font: inherit;
+      outline: none;
+    }
+
+    .chat-textarea:focus {
+      border-color: rgba(255,255,255,0.35);
+      box-shadow: 0 0 0 4px rgba(255,255,255,0.04);
+    }
+
+    .demo-meta,
+    .demo-status,
+    .answer-meta,
+    .source-item {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--info-bg);
+    }
+
+    .demo-meta,
+    .demo-status,
+    .answer-meta {
+      padding: 0.95rem 1rem;
+    }
+
+    .demo-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .turnstile-wrap {
+      min-height: 72px;
+    }
+
+    .demo-status {
+      margin-top: 1rem;
+      color: var(--muted);
+    }
+
+    .demo-status.success { color: var(--success); }
+    .demo-status.error { color: var(--error); }
+
+    .answer-text {
+      white-space: pre-wrap;
+      margin: 0;
+      color: var(--text);
+    }
+
+    .answer-placeholder {
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .answer-meta {
+      margin-top: 1rem;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .context-list {
+      display: grid;
+      gap: 0.9rem;
+      margin-top: 1rem;
+    }
+
+    .source-item {
+      padding: 1rem;
+    }
+
+    .source-title {
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+    }
+
+    .source-meta {
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .source-text {
+      margin: 0;
+      white-space: pre-wrap;
+      color: var(--text);
+      font-size: 0.96rem;
+    }
+
+    code.inline-code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      padding: 0.15rem 0.35rem;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.06);
     }
 
     footer {
@@ -272,7 +386,8 @@
       .hero,
       .about-grid,
       .projects,
-      .links {
+      .links,
+      .demo-shell {
         grid-template-columns: 1fr;
       }
 
@@ -280,6 +395,10 @@
         align-items: flex-start;
         padding: 0.8rem 0;
         flex-direction: column;
+      }
+
+      .demo-controls {
+        align-items: stretch;
       }
     }
   </style>
@@ -291,6 +410,7 @@
       <nav class="nav-links" aria-label="Primary">
         <a href="#about">About</a>
         <a href="#projects">Projects</a>
+        <a href="#alan-demo">Alan Demo</a>
         <a href="#talks">Talks</a>
         <a href="#contact">Contact</a>
       </nav>
@@ -446,6 +566,80 @@
       </div>
     </section>
 
+    <section id="alan-demo">
+      <div class="section-head">
+        <div>
+          <h2>Interactive Alan Watts Demo</h2>
+          <p>
+            This live demo sends your question to a retrieval-grounded backend, verifies that the request came from a human visitor, and returns a concise answer plus supporting excerpts.
+          </p>
+        </div>
+      </div>
+
+      <div class="demo-shell">
+        <div class="card demo-card">
+          <div class="eyebrow">Live Demo</div>
+          <h3>Ask Alan Watts a question</h3>
+          <p class="demo-intro">
+            Try questions about anxiety, control, identity, meditation, or suffering. The answer is grounded in a curated Alan Watts corpus rather than generated from style alone.
+          </p>
+
+          <form id="alan-chat-form">
+            <label class="field-label" for="query">Your question</label>
+            <textarea
+              id="query"
+              class="chat-textarea"
+              maxlength="600"
+              placeholder="Example: What does Alan Watts say about anxiety?"
+              aria-describedby="query-help"
+            ></textarea>
+            <p id="query-help" class="note">Max 600 characters. Please ask one clear question at a time.</p>
+
+            <div class="demo-controls">
+              <div class="turnstile-wrap">
+                <div
+                  class="cf-turnstile"
+                  data-sitekey="0x4AAAAAACuO2tJkGaTzmK6r"
+                  data-callback="onTurnstileSuccess"
+                  data-expired-callback="onTurnstileExpired"
+                  data-error-callback="onTurnstileError"
+                ></div>
+              </div>
+
+              <button id="ask-button" class="btn btn-primary" type="submit" disabled>
+                Ask Alan Watts
+              </button>
+            </div>
+          </form>
+
+          <div id="demo-status" class="demo-status" aria-live="polite">
+            Complete the human verification, then submit your question.
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="card answer-card">
+            <div class="eyebrow">Response</div>
+            <h3>Answer</h3>
+            <p id="answer-placeholder" class="answer-placeholder">
+              Your answer will appear here after a successful request.
+            </p>
+            <p id="answer-text" class="answer-text" hidden></p>
+            <div id="answer-meta" class="answer-meta" hidden></div>
+          </div>
+
+          <div class="card context-card">
+            <div class="eyebrow">Grounding</div>
+            <h3>Supporting excerpts</h3>
+            <p class="note">
+              These excerpts are shortened for display so interviewers can see how the answer is anchored.
+            </p>
+            <div id="context-list" class="context-list"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="talks">
       <div class="section-head">
         <div>
@@ -504,6 +698,144 @@
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    const API_BASE_URL = 'https://alan-watts-api-1039176824015.us-central1.run.app';
+    const ASK_ENDPOINT = `${API_BASE_URL}/ask`;
+
+    let turnstileToken = null;
+
+    const form = document.getElementById('alan-chat-form');
+    const queryInput = document.getElementById('query');
+    const askButton = document.getElementById('ask-button');
+    const statusEl = document.getElementById('demo-status');
+    const answerTextEl = document.getElementById('answer-text');
+    const answerPlaceholderEl = document.getElementById('answer-placeholder');
+    const answerMetaEl = document.getElementById('answer-meta');
+    const contextListEl = document.getElementById('context-list');
+
+    function setStatus(message, type = 'neutral') {
+      statusEl.textContent = message;
+      statusEl.classList.remove('success', 'error');
+      if (type === 'success') statusEl.classList.add('success');
+      if (type === 'error') statusEl.classList.add('error');
+    }
+
+    function resetTurnstileState() {
+      turnstileToken = null;
+      askButton.disabled = true;
+      if (window.turnstile) {
+        window.turnstile.reset();
+      }
+    }
+
+    function onTurnstileSuccess(token) {
+      turnstileToken = token;
+      askButton.disabled = false;
+      setStatus('Verification complete. You can now submit your question.', 'success');
+    }
+
+    function onTurnstileExpired() {
+      resetTurnstileState();
+      setStatus('Verification expired. Please complete it again.', 'error');
+    }
+
+    function onTurnstileError() {
+      resetTurnstileState();
+      setStatus('Verification failed to load correctly. Please refresh and try again.', 'error');
+    }
+
+    window.onTurnstileSuccess = onTurnstileSuccess;
+    window.onTurnstileExpired = onTurnstileExpired;
+    window.onTurnstileError = onTurnstileError;
+
+    function escapeHtml(text) {
+      return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function renderContext(chunks = []) {
+      if (!Array.isArray(chunks) || chunks.length === 0) {
+        contextListEl.innerHTML = '<p class="answer-placeholder">No supporting excerpts returned.</p>';
+        return;
+      }
+
+      contextListEl.innerHTML = chunks.map((chunk) => {
+        return `
+          <article class="source-item">
+            <div class="source-title">Source rank ${chunk.rank}</div>
+            <div class="source-meta">
+              Chunk ${chunk.chunk_id} · ${escapeHtml(chunk.source)} · similarity ${Number(chunk.score).toFixed(3)}
+            </div>
+            <p class="source-text">${escapeHtml(chunk.text)}</p>
+          </article>
+        `;
+      }).join('');
+    }
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const query = queryInput.value.trim();
+
+      if (!query) {
+        setStatus('Please enter a question before submitting.', 'error');
+        return;
+      }
+
+      if (!turnstileToken) {
+        setStatus('Please complete the human verification before submitting.', 'error');
+        return;
+      }
+
+      askButton.disabled = true;
+      setStatus('Thinking...', 'neutral');
+      answerPlaceholderEl.hidden = true;
+      answerTextEl.hidden = false;
+      answerTextEl.textContent = 'Generating answer...';
+      answerMetaEl.hidden = true;
+      contextListEl.innerHTML = '<p class="answer-placeholder">Loading supporting excerpts...</p>';
+
+      try {
+        const response = await fetch(ASK_ENDPOINT, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            query,
+            turnstile_token: turnstileToken,
+            top_k: 3
+          })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.detail || 'Request failed.');
+        }
+
+        answerTextEl.textContent = data.answer || 'No answer returned.';
+        answerMetaEl.hidden = false;
+        answerMetaEl.innerHTML = `Model: <code class="inline-code">${escapeHtml(data.generation_model)}</code> · Embeddings: <code class="inline-code">${escapeHtml(data.embedding_model)}</code> · Top-k: <code class="inline-code">${escapeHtml(String(data.top_k))}</code>`;
+        renderContext(data.retrieved_context || []);
+        setStatus('Answer generated successfully.', 'success');
+        queryInput.value = '';
+      } catch (error) {
+        const message = error instanceof Error ? error.message : 'Something went wrong.';
+        answerTextEl.textContent = '';
+        answerTextEl.hidden = true;
+        answerPlaceholderEl.hidden = false;
+        answerMetaEl.hidden = true;
+        contextListEl.innerHTML = '<p class="answer-placeholder">No excerpts to show.</p>';
+        setStatus(message, 'error');
+      } finally {
+        resetTurnstileState();
+      }
+    });
   </script>
 </body>
 </html>
