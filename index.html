@@ -336,6 +336,41 @@
       font-size: 0.94rem;
     }
 
+    .answer-stack {
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    .chat-turn {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 1rem;
+      background: var(--info-bg);
+    }
+
+    .chat-turn.user-turn {
+      background: rgba(255,255,255,0.035);
+    }
+
+    .chat-turn.assistant-turn {
+      background: rgba(255,255,255,0.02);
+    }
+
+    .chat-turn-label {
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.45rem;
+      font-weight: 700;
+    }
+
+    .chat-turn-text {
+      margin: 0;
+      white-space: pre-wrap;
+      color: var(--text);
+    }
+
     .context-list {
       display: grid;
       gap: 0.9rem;
@@ -620,11 +655,24 @@
         <div class="grid">
           <div class="card answer-card">
             <div class="eyebrow">Response</div>
-            <h3>Answer</h3>
+            <h3>Conversation</h3>
+
             <p id="answer-placeholder" class="answer-placeholder">
-              Your answer will appear here after a successful request.
+              Your question and answer will appear here after a successful request.
             </p>
-            <p id="answer-text" class="answer-text" hidden></p>
+
+            <div id="answer-stack" class="answer-stack" hidden>
+              <div class="chat-turn user-turn">
+                <div class="chat-turn-label">You asked</div>
+                <p id="user-query-text" class="chat-turn-text"></p>
+              </div>
+
+              <div class="chat-turn assistant-turn">
+                <div class="chat-turn-label">Alan says</div>
+                <p id="answer-text" class="answer-text"></p>
+              </div>
+            </div>
+
             <div id="answer-meta" class="answer-meta" hidden></div>
           </div>
 
@@ -708,11 +756,12 @@
     const queryInput = document.getElementById('query');
     const askButton = document.getElementById('ask-button');
     const statusEl = document.getElementById('demo-status');
-    const answerTextEl = document.getElementById('answer-text');
     const answerPlaceholderEl = document.getElementById('answer-placeholder');
+    const answerStackEl = document.getElementById('answer-stack');
+    const userQueryTextEl = document.getElementById('user-query-text');
+    const answerTextEl = document.getElementById('answer-text');
     const answerMetaEl = document.getElementById('answer-meta');
     const contextListEl = document.getElementById('context-list');
-
     function setStatus(message, type = 'neutral') {
       statusEl.textContent = message;
       statusEl.classList.remove('success', 'error');
@@ -757,6 +806,21 @@
         .replace(/'/g, '&#039;');
     }
 
+    function showConversation(query, answer = '') {
+      answerPlaceholderEl.hidden = true;
+      answerStackEl.hidden = false;
+      userQueryTextEl.textContent = query;
+      answerTextEl.textContent = answer;
+    }
+
+    function resetConversation() {
+      answerStackEl.hidden = true;
+      answerPlaceholderEl.hidden = false;
+      userQueryTextEl.textContent = '';
+      answerTextEl.textContent = '';
+      answerMetaEl.hidden = true;
+    }
+
     function renderContext(chunks = []) {
       if (!Array.isArray(chunks) || chunks.length === 0) {
         contextListEl.innerHTML = '<p class="answer-placeholder">No supporting excerpts returned.</p>';
@@ -793,11 +857,14 @@
 
       askButton.disabled = true;
       setStatus('Thinking...', 'neutral');
-      answerPlaceholderEl.hidden = true;
-      answerTextEl.hidden = false;
-      answerTextEl.textContent = 'Generating answer...';
+
+      // Show the user's prompt immediately
+      showConversation(query, 'Generating answer...');
       answerMetaEl.hidden = true;
       contextListEl.innerHTML = '<p class="answer-placeholder">Loading supporting excerpts...</p>';
+
+      // Optional but recommended: clear the box immediately so it feels "sent"
+      queryInput.value = '';
 
       try {
         const response = await fetch(ASK_ENDPOINT, {
@@ -818,17 +885,14 @@
           throw new Error(data.detail || 'Request failed.');
         }
 
-        answerTextEl.textContent = data.answer || 'No answer returned.';
+        showConversation(query, data.answer || 'No answer returned.');
         answerMetaEl.hidden = false;
         answerMetaEl.innerHTML = `Model: <code class="inline-code">${escapeHtml(data.generation_model)}</code> · Embeddings: <code class="inline-code">${escapeHtml(data.embedding_model)}</code> · Top-k: <code class="inline-code">${escapeHtml(String(data.top_k))}</code>`;
         renderContext(data.retrieved_context || []);
         setStatus('Answer generated successfully.', 'success');
-        queryInput.value = '';
       } catch (error) {
         const message = error instanceof Error ? error.message : 'Something went wrong.';
-        answerTextEl.textContent = '';
-        answerTextEl.hidden = true;
-        answerPlaceholderEl.hidden = false;
+        showConversation(query, 'I’m sorry, but the request failed.');
         answerMetaEl.hidden = true;
         contextListEl.innerHTML = '<p class="answer-placeholder">No excerpts to show.</p>';
         setStatus(message, 'error');
